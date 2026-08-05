@@ -7,7 +7,7 @@ import json
 import sys
 from scholarly import scholarly, ProxyGenerator
 
-SCHOLAR_ID = "YOUR_SCHOLAR_ID_HERE"
+SCHOLAR_ID = "uR88WY8AAAAJ"
 
 
 def fetch():
