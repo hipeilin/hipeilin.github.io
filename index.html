@@ -380,7 +380,7 @@
       <main id="top">
         <section class="hero">
           <div class="hero__panel" data-reveal>
-            <div class="eyebrow">Engineer · Developer · Researcher</div>
+            <div class="eyebrow"></div>
             <div>
               <h1 class="hero__title">Building thoughtful systems with calm precision.</h1>
               <p class="hero__lede">
@@ -412,7 +412,7 @@
         <section id="about">
           <div class="section__header" data-reveal>
             <div class="section__eyebrow">About Me</div>
-            <h2>Engineer, Developer, and Researcher.</h2>
+            <h2 id="about-me-title">Hey, I'm Peilin 👋</h2>
             <p>
               My work lives at the intersection of dependable engineering, developer experience,
               and methodical research. I like elegant interfaces, strong fundamentals, and quiet details.
@@ -463,6 +463,29 @@
     </div>
 
     <script>
+      const aboutMeImages = [
+        "img/IMG_6827.png",
+        "img/IMG_6828.png",
+        "img/IMG_6829.png",
+        "img/IMG_6830.png",
+        "img/IMG_6831.png",
+        "img/IMG_6832.png",
+        "img/IMG_6833.png"
+      ];
+
+      const randomImage = aboutMeImages[Math.floor(Math.random() * aboutMeImages.length)];
+      const aboutMeTitle = document.getElementById('about-me-title');
+      if (aboutMeTitle) {
+        const image = document.createElement('img');
+        image.src = randomImage;
+        image.alt = "Peilin";
+        image.style.display = "block";
+        image.style.marginTop = "1rem";
+        image.style.maxWidth = "220px";
+        image.style.height = "auto";
+        aboutMeTitle.insertAdjacentElement('afterend', image);
+      }
+
       const revealItems = document.querySelectorAll('[data-reveal]');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
