@@ -9,80 +9,48 @@
       content="A minimal personal portfolio blending engineering precision, developer craft, and research curiosity."
     />
     <link rel="stylesheet" href="style.css" />
+    <!-- sets theme before first paint to avoid flash -->
+    <script>try{const t=localStorage.getItem('theme');if(t==='light'||(!t&&window.matchMedia('(prefers-color-scheme: light)').matches))document.documentElement.setAttribute('data-theme','light')}catch(e){}</script>
   </head>
   <body>
     <header class="nav">
       <div class="nav__inner">
-        <a class="nav__brand" href="#top">Peilin / Portfolio</a>
+        <a class="nav__brand" href="#top"></a>
         <nav class="nav__links" aria-label="Primary navigation">
           <a href="#about">About Me</a>
           <a href="#publication">Publication</a>
           <a href="cv.pdf">CV</a>
         </nav>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode"></button>
       </div>
     </header>
 
     <div class="page">
-
       <main id="top">
-        <section class="hero">
+        <section class="hero" id="about">
           <div class="hero__panel" data-reveal>
-            <div class="eyebrow"></div>
             <div>
               <h1 class="hero__title">Hey, I'm Peilin 👋</h1>
-              <img src="img/IMG_6827.png" alt="Peilin portrait" />
+              <img id="portrait" src="" alt="Peilin portrait" />
               <div class="hero__word" id="hero-word" aria-live="polite"></div>
               <p class="hero__lede">
-                I design and ship digital experiences that balance engineering rigor,
-                product intuition, and research depth — minimal on the surface, deliberate underneath.
+                I see. I think. And I make.
               </p>
             </div>
-          </div>
-        </section>
-
-        <section id="about">
-          <div class="section__header" data-reveal>
-            <p>
-              My work lives at the intersection of dependable engineering, developer experience,
-              and methodical research. I like elegant interfaces, strong fundamentals, and quiet details.
-            </p>
-          </div>
-          <div class="grid">
-            <article class="card" data-reveal>
-              <h3>Systems Thinking</h3>
-              <p>Breaking complex problems into dependable layers, with clarity across architecture and implementation.</p>
-              <div class="tags"><span>Architecture</span><span>Reliability</span><span>Performance</span></div>
-            </article>
-            <article class="card" data-reveal>
-              <h3>Developer Experience</h3>
-              <p>Building interfaces and tooling that feel fast, intuitive, and calm for the people using them every day.</p>
-              <div class="tags"><span>Frontend</span><span>Tooling</span><span>Design Systems</span></div>
-            </article>
-            <article class="card" data-reveal>
-              <h3>Research Practice</h3>
-              <p>Using experiments, interviews, and close observation to uncover insights worth turning into products.</p>
-              <div class="tags"><span>Discovery</span><span>Analysis</span><span>Synthesis</span></div>
-            </article>
           </div>
         </section>
 
         <section id="publication">
           <div class="section__header" data-reveal>
             <div class="section__eyebrow">Publication</div>
-            <h2>Research and writing.</h2>
+            <!-- <h2>Research and writing.</h2> -->
             <p>
-              Selected publications and papers across engineering, systems, and applied research.
+              My PhD research designs human-in-the-loop visual analytics approaches for complex event sequence data, coupling algorithmic pattern extraction with interactive visualization so that analysts can uncover interaction patterns and relate them to higher-level constructs such as exploration strategies, learning processes, and reasoning.
+
+              This work has been published at leading visualization venues, including IEEE Transactions on Visualization and Computer Graphics (IEEE VIS) and IEEE PacificVis.
             </p>
           </div>
-          <div class="timeline">
-            <article class="timeline__item" data-reveal>
-              <div class="timeline__top">
-                <h3>Publication title goes here</h3>
-                <span>2024</span>
-              </div>
-              <p>A brief description of the paper, its contributions, and where it was published or presented.</p>
-            </article>
-          </div>
+          <div class="timeline" id="publications-list"></div>
         </section>
       </main>
 
@@ -91,113 +59,6 @@
       </footer>
     </div>
 
-    <script>
-      const aboutMeImages = [
-        "img/IMG_6827.png",
-        "img/IMG_6828.png",
-        "img/IMG_6829.png",
-        "img/IMG_6830.png",
-        "img/IMG_6831.png",
-        "img/IMG_6832.png",
-        "img/IMG_6833.png"
-      ];
-
-      const randomImage = aboutMeImages[Math.floor(Math.random() * aboutMeImages.length)];
-      const aboutMeTitle = document.getElementById('about-me-title');
-      if (aboutMeTitle) {
-        const image = document.createElement('img');
-        image.src = randomImage;
-        image.alt = "Peilin";
-        image.style.display = "block";
-        image.style.marginTop = "1rem";
-        image.style.maxWidth = "220px";
-        image.style.height = "auto";
-        aboutMeTitle.insertAdjacentElement('afterend', image);
-      }
-
-      const revealItems = document.querySelectorAll('[data-reveal]');
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const heroWords = ["developer", "engineer", "artist", "designer", "researcher"];
-      const heroWordElement = document.getElementById('hero-word');
-
-      const shuffle = (list) => {
-        const copy = [...list];
-        for (let i = copy.length - 1; i > 0; i -= 1) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [copy[i], copy[j]] = [copy[j], copy[i]];
-        }
-        return copy;
-      };
-
-      if (heroWordElement) {
-        let queue = shuffle(heroWords);
-        const letterDurationMs = reduceMotion ? 0 : 380;
-        const letterStaggerMs = reduceMotion ? 0 : 45;
-        const displayMs = reduceMotion ? 1800 : 1600;
-
-        heroWordElement.style.setProperty('--letter-duration', letterDurationMs + 'ms');
-        heroWordElement.style.setProperty('--letter-stagger', letterStaggerMs + 'ms');
-
-        const nextWord = () => {
-          if (!queue.length) {
-            queue = shuffle(heroWords);
-          }
-          return queue.shift();
-        };
-
-        const transitionMsFor = (length) =>
-          length ? letterDurationMs + (length - 1) * letterStaggerMs : 0;
-
-        const renderLetters = (word) => {
-          const fragment = document.createDocumentFragment();
-          Array.from(word).forEach((character, index) => {
-            const letter = document.createElement('span');
-            letter.className = 'hero__letter';
-            letter.textContent = character;
-            letter.style.setProperty('--letter-index', index);
-            fragment.appendChild(letter);
-          });
-          heroWordElement.textContent = '';
-          heroWordElement.appendChild(fragment);
-        };
-
-        const showWord = () => {
-          const leaveMs = transitionMsFor(heroWordElement.textContent.length);
-          heroWordElement.classList.remove('is-visible');
-          heroWordElement.classList.add('is-leaving');
-          const word = nextWord();
-          window.setTimeout(() => {
-            heroWordElement.classList.remove('is-leaving');
-            renderLetters(word);
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                heroWordElement.classList.add('is-visible');
-              });
-            });
-            window.setTimeout(showWord, displayMs + transitionMsFor(word.length));
-          }, leaveMs);
-        };
-
-        showWord();
-      }
-
-      if (reduceMotion) {
-        revealItems.forEach((item) => item.classList.add('is-visible'));
-      } else {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.18 }
-        );
-
-        revealItems.forEach((item) => observer.observe(item));
-      }
-    </script>
+    <script src="main.js" defer></script>
   </body>
 </html>
