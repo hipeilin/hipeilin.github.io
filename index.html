@@ -164,6 +164,21 @@
         letter-spacing: -0.05em;
       }
 
+      .hero__word {
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        min-height: 0.95em;
+        opacity: 0;
+        transform: translateX(-24px);
+        transition: opacity 420ms ease, transform 420ms ease;
+      }
+
+      .hero__word.is-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
       .hero__lede {
         max-width: 58ch;
         color: var(--muted);
@@ -382,15 +397,12 @@
           <div class="hero__panel" data-reveal>
             <div class="eyebrow"></div>
             <div>
-              <h1 class="hero__title">Building thoughtful systems with calm precision.</h1>
+              <h1 class="hero__title">Hey, I'm Peilin</h1>
+              <div class="hero__word" id="hero-word" aria-live="polite"></div>
               <p class="hero__lede">
                 I design and ship digital experiences that balance engineering rigor,
                 product intuition, and research depth — minimal on the surface, deliberate underneath.
               </p>
-            </div>
-            <div class="hero__actions">
-              <a class="button button--primary" href="#work">View selected work</a>
-              <a class="button" href="mailto:hello@example.com">Say hello</a>
             </div>
             <div class="hero__meta" aria-label="Highlights">
               <div>
@@ -488,6 +500,42 @@
 
       const revealItems = document.querySelectorAll('[data-reveal]');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const heroWords = ["developer", "engineer", "artist", "designer", "researcher"];
+      const heroWordElement = document.getElementById('hero-word');
+
+      const shuffle = (list) => {
+        const copy = [...list];
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+      };
+
+      if (heroWordElement) {
+        let queue = shuffle(heroWords);
+        const transitionMs = reduceMotion ? 0 : 420;
+        const displayMs = reduceMotion ? 1800 : 1600;
+
+        const nextWord = () => {
+          if (!queue.length) {
+            queue = shuffle(heroWords);
+          }
+          return queue.shift();
+        };
+
+        const showWord = () => {
+          heroWordElement.classList.remove('is-visible');
+          const word = nextWord();
+          window.setTimeout(() => {
+            heroWordElement.textContent = word;
+            heroWordElement.classList.add('is-visible');
+          }, transitionMs);
+        };
+
+        showWord();
+        window.setInterval(showWord, displayMs + transitionMs);
+      }
 
       if (reduceMotion) {
         revealItems.forEach((item) => item.classList.add('is-visible'));
