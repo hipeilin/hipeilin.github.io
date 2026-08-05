@@ -10,6 +10,26 @@ from scholarly import scholarly, ProxyGenerator
 SCHOLAR_ID = "uR88WY8AAAAJ"
 
 
+def format_authors(raw: str) -> str:
+    """'John A. Smith and Jane Doe' → 'J. Smith, J. Doe'"""
+    authors = []
+    for name in raw.split(" and "):
+        name = name.strip()
+        if not name:
+            continue
+        if "," in name:
+            # "Smith, John" format
+            last, first = name.split(",", 1)
+            first = first.strip()
+        else:
+            parts = name.split()
+            first = parts[0] if len(parts) > 1 else ""
+            last = parts[-1]
+        initial = (first[0] + ".") if first else ""
+        authors.append(f"{initial} {last}".strip())
+    return ", ".join(authors)
+
+
 def fetch():
     try:
         author = scholarly.search_author_id(SCHOLAR_ID)
@@ -25,18 +45,22 @@ def fetch():
 
     pubs = []
     for pub in author.get("publications", []):
+        scholarly.fill(pub)  # fetch full details for each publication
         bib = pub.get("bib", {})
+        # print(json.dumps(bib, indent=2, ensure_ascii=False, default=str))
+        # print(" \n")
         pubs.append({
             "title": bib.get("title", ""),
             "year": bib.get("pub_year", ""),
-            "venue": bib.get("venue", ""),
-            "abstract": bib.get("abstract", ""),
+            "authors": format_authors(bib.get("author", "")),
+            "venue": bib.get("journal", "") or bib.get("conference", "") or bib.get("publisher", "") or bib.get("citation", ""),
+            # "abstract": bib.get("abstract", ""),
             "url": pub.get("pub_url", ""),
             "citations": pub.get("num_citations", 0),
         })
 
     # Most recent first
-    pubs.sort(key=lambda p: p["year"] or "0", reverse=True)
+    pubs.sort(key=lambda p: str(p["year"] or "0"), reverse=True)
 
     with open("publications.json", "w", encoding="utf-8") as f:
         json.dump(pubs, f, indent=2, ensure_ascii=False)

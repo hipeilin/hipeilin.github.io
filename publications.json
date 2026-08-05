@@ -1,50 +1,50 @@
 [
   {
     "title": "Visual Extraction of Interaction Patterns Guided by Hierarchical Clustering and Process Mining",
-    "year": "2025",
-    "venue": "",
-    "abstract": "",
-    "url": "",
+    "year": 2025,
+    "authors": "P. Yu, A. Nordman, T. Fujiwara, M. Koc-Januchta, K. Schönborn, L. Besançon, K. Vrotsou",
+    "venue": "IEEE Transactions on Visualization and Computer Graphics",
+    "url": "https://ieeexplore.ieee.org/abstract/document/11261866/",
     "citations": 6
   },
   {
     "title": "Coordinated Projections: A New Approach toMulti-Faceted Process Exploration",
-    "year": "2025",
-    "venue": "",
-    "abstract": "",
-    "url": "",
+    "year": 2025,
+    "authors": "S. Elzen, G. Andrienko, A. Kerren, M. Resinas, B. Weber, P. Yu",
+    "venue": "6th Workshop on Event Data and Behavioral Analytics (EdbA'25), Montevideo, Uruguay, October 20, 2025.",
+    "url": "https://scholar.google.com/scholar?cluster=12459417323921567912&hl=en&oi=scholarr",
     "citations": 1
   },
   {
     "title": "Revealing interaction dynamics: Multi-level visual exploration of user strategies with an interactive digital environment",
-    "year": "2024",
-    "venue": "",
-    "abstract": "",
-    "url": "",
+    "year": 2024,
+    "authors": "P. Yu, A. Nordman, M. Koc-Januchta, K. Schönborn, L. Besançon, K. Vrotsou",
+    "venue": "IEEE Transactions on Visualization and Computer Graphics",
+    "url": "https://ieeexplore.ieee.org/abstract/document/10670552/",
     "citations": 12
   },
   {
     "title": "Interactive Transformations and Visual Assessment of Noisy Event Sequences: An Application in En-Route Air Traffic Control",
-    "year": "2023",
-    "venue": "",
-    "abstract": "",
-    "url": "",
+    "year": 2023,
+    "authors": "P. Yu, A. Nordman, L. Meyer, S. Boonsong, K. Vrotsou",
+    "venue": "2023 IEEE 16th Pacific Visualization Symposium (PacificVis)",
+    "url": "https://ieeexplore.ieee.org/abstract/document/10148444/",
     "citations": 1
   },
   {
     "title": "Conversational Chatbots with Memory-based Question and Answer Generation",
-    "year": "2020",
+    "year": 2020,
+    "authors": "M. Vinkler, P. Yu",
     "venue": "",
-    "abstract": "",
-    "url": "",
+    "url": "https://scholar.google.com/scholar?cluster=4891159829432499220&hl=en&oi=scholarr",
     "citations": 1
   },
   {
     "title": "From Interaction to Systems Thinking: A Visual Analytics Approach for Exploring Pupils’ Behavior in a Digital Learning Environment",
     "year": "",
-    "venue": "",
-    "abstract": "",
-    "url": "",
+    "authors": "P. Yu, A. Nordman, M. Mani, K. Schönborn, M. Koc-Januchta, G. Höst, M. Gezelius, L. Besançon, K. Vrotsou",
+    "venue": "OSF, 0",
+    "url": "https://files.de-1.osf.io/v1/resources/9zp7k_v1/providers/osfstorage/69d53196939c4f2bab712841",
     "citations": 0
   }
 ]

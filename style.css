@@ -96,6 +96,7 @@ section[id] {
   gap: 1rem;
   font-size: 0.95rem;
   color: var(--muted);
+  margin-right: 2vw;
 }
 
 .nav__links a {
@@ -221,7 +222,7 @@ section {
 
 .section__header p {
   color: var(--muted);
-  max-width: 60ch;
+  /* max-width: 60ch; */
 }
 
 .grid {

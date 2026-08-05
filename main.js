@@ -123,8 +123,8 @@ if (pubList) {
             <h3>${pub.url ? `<a href="${pub.url}" target="_blank" rel="noopener">${pub.title}</a>` : pub.title}</h3>
             ${pub.year ? `<span>${pub.year}</span>` : ''}
           </div>
-          ${pub.venue ? `<p><em>${pub.venue}</em></p>` : ''}
-          ${pub.abstract ? `<p>${pub.abstract}</p>` : ''}
+          ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
+          ${pub.venue ? `<p class="pub-venue"><em>${pub.venue}</em></p>` : ''}
         </article>
       `).join('');
 
