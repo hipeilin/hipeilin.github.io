@@ -65,17 +65,34 @@
         margin: 0 auto;
         position: relative;
         z-index: 1;
+        padding-top: 5rem;
+      }
+
+      section[id] {
+        scroll-margin-top: 5rem;
       }
 
       .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1.5rem 0;
-        position: sticky;
-        top: 0;
+        padding: 1rem 0;
         backdrop-filter: blur(18px);
-        background: linear-gradient(180deg, rgba(11, 16, 32, 0.88), rgba(11, 16, 32, 0.35));
+        background: linear-gradient(180deg, rgba(11, 16, 32, 0.92), rgba(11, 16, 32, 0.6));
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav__inner {
+        width: min(calc(100% - 2rem), var(--max-width));
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .nav__brand {
@@ -307,7 +324,7 @@
 
         .footer,
         .timeline__top,
-        .nav {
+        .nav__inner {
           flex-direction: column;
           align-items: flex-start;
         }
@@ -347,16 +364,18 @@
     </style>
   </head>
   <body>
-    <div class="page">
-      <header class="nav">
+    <header class="nav">
+      <div class="nav__inner">
         <a class="nav__brand" href="#top">Peilin / Portfolio</a>
         <nav class="nav__links" aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#work">Selected Work</a>
-          <a href="#approach">Approach</a>
-          <a href="#contact">Contact</a>
+          <a href="#about">About Me</a>
+          <a href="#publication">Publication</a>
+          <a href="cv.pdf">CV</a>
         </nav>
-      </header>
+      </div>
+    </header>
+
+    <div class="page">
 
       <main id="top">
         <section class="hero">
@@ -392,8 +411,8 @@
 
         <section id="about">
           <div class="section__header" data-reveal>
-            <div class="section__eyebrow">About</div>
-            <h2>A portfolio that reads like a concise lab notebook and feels like a crafted product.</h2>
+            <div class="section__eyebrow">About Me</div>
+            <h2>Engineer, Developer, and Researcher.</h2>
             <p>
               My work lives at the intersection of dependable engineering, developer experience,
               and methodical research. I like elegant interfaces, strong fundamentals, and quiet details.
@@ -418,67 +437,28 @@
           </div>
         </section>
 
-        <section id="work">
+        <section id="publication">
           <div class="section__header" data-reveal>
-            <div class="section__eyebrow">Selected Work</div>
-            <h2>Projects framed by outcome, discipline, and learning.</h2>
+            <div class="section__eyebrow">Publication</div>
+            <h2>Research and writing.</h2>
             <p>
-              A few representative stories that show how I move from open-ended questions to durable, well-shaped solutions.
+              Selected publications and papers across engineering, systems, and applied research.
             </p>
           </div>
           <div class="timeline">
             <article class="timeline__item" data-reveal>
               <div class="timeline__top">
-                <h3>Platform observability redesign</h3>
-                <span>Engineering</span>
+                <h3>Publication title goes here</h3>
+                <span>2024</span>
               </div>
-              <p>Reframed noisy internal dashboards into a focused workflow, improving signal clarity for incident response and daily operations.</p>
-            </article>
-            <article class="timeline__item" data-reveal>
-              <div class="timeline__top">
-                <h3>Developer workflow toolkit</h3>
-                <span>Developer</span>
-              </div>
-              <p>Created a lightweight toolkit for local setup, previews, and component feedback loops to reduce friction across the delivery pipeline.</p>
-            </article>
-            <article class="timeline__item" data-reveal>
-              <div class="timeline__top">
-                <h3>Applied product research study</h3>
-                <span>Researcher</span>
-              </div>
-              <p>Designed a structured research sprint that translated interviews and usage patterns into a calmer, more effective product direction.</p>
-            </article>
-          </div>
-        </section>
-
-        <section id="approach">
-          <div class="section__header" data-reveal>
-            <div class="section__eyebrow">Approach</div>
-            <h2>Quietly expressive design, supported by careful implementation.</h2>
-            <p>
-              The visual system uses restrained contrast, soft glass panels, and subtle motion to feel elegant and modern without becoming flashy.
-            </p>
-          </div>
-          <div class="grid">
-            <article class="card" data-reveal>
-              <h3>Minimal Form</h3>
-              <p>Generous spacing, focused typography, and a narrow palette let content carry the weight.</p>
-            </article>
-            <article class="card" data-reveal>
-              <h3>Subtle Motion</h3>
-              <p>Intersection-based reveals add polish while respecting reduced-motion preferences and keeping the experience calm.</p>
-            </article>
-            <article class="card" data-reveal>
-              <h3>Elegant Detail</h3>
-              <p>Layered gradients, faint grid texture, and tactile hover states create a refined sense of depth.</p>
+              <p>A brief description of the paper, its contributions, and where it was published or presented.</p>
             </article>
           </div>
         </section>
       </main>
 
-      <footer class="footer" id="contact" data-reveal>
+      <footer class="footer" data-reveal>
         <p>Open to thoughtful collaborations across product, platform, and research-led work.</p>
-        <a class="button" href="mailto:hello@example.com">hello@example.com</a>
       </footer>
     </div>
 
