@@ -172,6 +172,20 @@ function initThemeToggle() {
     }
 }
 
+function initLocationToggle() {
+    const pin = document.getElementById('location-toggle');
+    const map = document.getElementById('location-map');
+    if (!pin || !map) return;
+
+    pin.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = map.classList.toggle('is-open');
+        pin.setAttribute('aria-expanded', String(isOpen));
+        pin.setAttribute('aria-label', isOpen ? 'Hide map' : 'Show map');
+        pin.setAttribute('title', isOpen ? 'Hide map' : 'Show map');
+    });
+}
+
 function titleCase(str) {
     return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
 }
@@ -208,5 +222,6 @@ initCustomCursor();
 initRandomPortrait();
 initHeroWordCycle();
 initThemeToggle();
+initLocationToggle();
 const observeReveal = initRevealAnimations();
 initPublications(observeReveal);

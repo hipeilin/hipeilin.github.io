@@ -21,7 +21,7 @@
   <div class="cursor-ring" id="cursor-ring"></div>
   <header class="nav">
     <div class="nav__inner">
-      <a class="nav__brand" href="#top"></a>
+      <a class="nav__brand"></a>
       <nav class="nav__links" aria-label="Primary navigation">
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -33,7 +33,7 @@
   </header>
 
   <div class="page">
-    <main id="top">
+    <main id="main">
       <section class="hero" id="about">
         <div class="hero__panel" data-reveal>
           <div>
@@ -86,6 +86,23 @@
                 d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947 0 .525-.422.947-.947.947-.525 0-.946-.422-.946-.947 0-.516.421-.947.946-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z" />
             </svg>
           </a>
+
+          <!-- Location -->
+          <a href="#" class="location__pin" id="location-toggle" aria-expanded="false" aria-controls="location-map"
+            aria-label="Show map" title="Show map">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+            </svg>
+          </a>
+        </div>
+        
+        <div class="location" data-reveal>
+          <div class="location__map" id="location-map">
+            <iframe width="800" height="820" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0"
+              src="https://use.mazemap.com/embed.html#v=1&amp;config=liu&amp;campusid=754&amp;zlevel=3&amp;center=16.175863,58.588710&amp;zoom=18.9&amp;sharepoitype=identifier&amp;sharepoi=7222-1001%3A3029&amp;utm_medium=iframe"
+              style="border:1px solid grey" allow="geolocation" title="Map by MazeMap"></iframe>
+          </div>
         </div>
       </section>
 
