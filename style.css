@@ -14,7 +14,9 @@
 }
 
 @media (pointer: fine) {
-  * { cursor: none !important; }
+  * {
+    cursor: none !important;
+  }
 }
 
 body {
@@ -167,8 +169,13 @@ section[id] {
 }
 
 /* sun = click to go light; moon = click to go dark */
-.theme-toggle::before { content: "☀︎"; }
-[data-theme="light"] .theme-toggle::before { content: "☽"; }
+.theme-toggle::before {
+  content: "☀︎";
+}
+
+[data-theme="light"] .theme-toggle::before {
+  content: "☽";
+}
 
 .hero {
   min-height: calc(100vh - 5rem);
@@ -220,11 +227,26 @@ p {
 }
 
 /* each word gets its own typeface */
-.hero__word[data-word="developer"] { font-family: "JetBrains Mono", monospace; }
-.hero__word[data-word="engineer"]  { font-family: "Google Sans", sans-serif;}
-.hero__word[data-word="artist"]    { font-family: "Tangerine", cursive; }
-.hero__word[data-word="designer"]  { font-family: "Shippori Mincho B1", serif; letter-spacing: 0.12em; }
-.hero__word[data-word="researcher"]{ font-family: "Cormorant Garamond", serif; }
+.hero__word[data-word="developer"] {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.hero__word[data-word="engineer"] {
+  font-family: "Google Sans", sans-serif;
+}
+
+.hero__word[data-word="artist"] {
+  font-family: "Tangerine", cursive;
+}
+
+.hero__word[data-word="designer"] {
+  font-family: "Shippori Mincho B1", serif;
+  letter-spacing: 0.12em;
+}
+
+.hero__word[data-word="researcher"] {
+  font-family: "Cormorant Garamond", serif;
+}
 
 .hero__lede {
   max-width: 58ch;
@@ -260,11 +282,21 @@ section {
 }
 
 .contact-links a {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.5rem 1.1rem;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--teal);
+  border-radius: 50%;
+  color: var(--muted);
   transition: color .3s ease, background .3s ease, border-color .3s ease;
+}
+
+.contact-links a svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .contact-links a:hover,
@@ -369,6 +401,7 @@ section {
 }
 
 @media (max-width: 840px) {
+
   .footer,
   .timeline__top,
   .nav__inner {
