@@ -23,6 +23,10 @@ body {
   user-select: none;
 }
 
+img {
+  -webkit-user-drag: none;
+}
+
 .cursor-dot,
 .cursor-ring {
   display: none;
@@ -229,6 +233,16 @@ p {
   left: 33.33%;
   transform: translateX(-50%);
   text-align: center;
+}
+
+#portrait {
+  transform: scale(1);
+  transition: transform 1.4s ease;
+}
+
+#portrait:hover {
+  transform: scale(1.05);
+  transition: transform .3s ease;
 }
 
 .hero__word {
