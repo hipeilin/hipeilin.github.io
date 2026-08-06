@@ -1,4 +1,6 @@
-const aboutMeImages = [
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+const ABOUT_ME_IMAGES = [
   "img/IMG_6827.png",
   "img/IMG_6828.png",
   "img/IMG_6829.png",
@@ -7,15 +9,9 @@ const aboutMeImages = [
   "img/IMG_6832.png",
   "img/IMG_6833.png"
 ];
+const HERO_WORDS = ["developer", "engineer", "artist", "designer", "researcher"];
 
-const randomImage = aboutMeImages[Math.floor(Math.random() * aboutMeImages.length)];
-const portrait = document.getElementById('portrait');
-if (portrait) portrait.src = randomImage;
-
-const revealItems = document.querySelectorAll('[data-reveal]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const heroWords = ["developer", "engineer", "artist", "designer", "researcher"];
-const heroWordElement = document.getElementById('hero-word');
 
 const shuffle = (list) => {
   const copy = [...list];
@@ -26,14 +22,65 @@ const shuffle = (list) => {
   return copy;
 };
 
-if (heroWordElement) {
-  let queue = shuffle(heroWords);
+// Custom cursor — only on devices with a precise pointer (mouse)
+function initCustomCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let rx = mx, ry = my;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top = my + 'px';
+  });
+
+  const tick = () => {
+    rx += (mx - rx) * 0.7;
+    ry += (my - ry) * 0.7;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(tick);
+  };
+  tick();
+
+  // Shrink ring over publication links, contact links, and nav items
+  const isInteractiveLink = (target) =>
+    target.closest('.timeline__item a') || target.closest('.nav__links a') || target.closest('.contact-links a');
+
+  document.addEventListener('mouseover', (e) => {
+    if (isInteractiveLink(e.target)) {
+      ring.style.transition = 'transform 200ms ease';
+      ring.style.transform = 'translate(-50%, -50%) scale(0.5)';
+    }
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (isInteractiveLink(e.target)) {
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+    }
+  });
+}
+
+function initRandomPortrait() {
+  const portrait = document.getElementById('portrait');
+  if (!portrait) return;
+  portrait.src = ABOUT_ME_IMAGES[Math.floor(Math.random() * ABOUT_ME_IMAGES.length)];
+}
+
+function initHeroWordCycle() {
+  const heroWordElement = document.getElementById('hero-word');
+  if (!heroWordElement) return;
+
+  let queue = shuffle(HERO_WORDS);
   const transitionMs = reduceMotion ? 0 : 420;
-  const displayMs = reduceMotion ? 1800 : 1600;
+  const displayMs = reduceMotion ? 1800 : 2500;
 
   const nextWord = () => {
     if (!queue.length) {
-      queue = shuffle(heroWords);
+      queue = shuffle(HERO_WORDS);
     }
     return queue.shift();
   };
@@ -43,6 +90,7 @@ if (heroWordElement) {
     heroWordElement.style.opacity = '0';
     heroWordElement.style.transform = 'translateX(-32px)';
     heroWordElement.textContent = word;
+    heroWordElement.setAttribute('data-word', word);
     heroWordElement.getBoundingClientRect();
     heroWordElement.style.transition = `opacity ${transitionMs}ms ease, transform ${transitionMs}ms ease`;
     heroWordElement.style.opacity = '1';
@@ -68,9 +116,16 @@ if (heroWordElement) {
   window.setInterval(showWord, displayMs + transitionMs);
 }
 
-if (reduceMotion) {
-  revealItems.forEach((item) => item.classList.add('is-visible'));
-} else {
+// Fades in [data-reveal] elements as they scroll into view; returns a
+// function for observing elements injected later (e.g. publications).
+function initRevealAnimations() {
+  const revealItems = document.querySelectorAll('[data-reveal]');
+
+  if (reduceMotion) {
+    revealItems.forEach((item) => item.classList.add('is-visible'));
+    return (items) => items.forEach((el) => el.classList.add('is-visible'));
+  }
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -84,56 +139,70 @@ if (reduceMotion) {
   );
 
   revealItems.forEach((item) => observer.observe(item));
-
-  // Observe dynamically injected publication items
-  const observeNewItems = (items) => items.forEach((el) => observer.observe(el));
-  window._observeReveal = observeNewItems;
+  return (items) => items.forEach((el) => observer.observe(el));
 }
 
-const themeToggle = document.getElementById('theme-toggle');
-const applyTheme = (theme) => {
-  if (theme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
+function initThemeToggle() {
+  const themeToggle = document.getElementById('theme-toggle');
+  if (!themeToggle) return;
+
+  const applyTheme = (theme) => {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      themeToggle.setAttribute('aria-label', 'Switch to light mode');
+    }
+  };
+
+  themeToggle.addEventListener('click', () => {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const next = isLight ? 'dark' : 'light';
+    applyTheme(next);
+    try { localStorage.setItem('theme', next); } catch (e) { }
+  });
+
+  if (document.documentElement.getAttribute('data-theme') === 'light') {
     themeToggle.setAttribute('aria-label', 'Switch to dark mode');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    themeToggle.setAttribute('aria-label', 'Switch to light mode');
   }
-};
-themeToggle?.addEventListener('click', () => {
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  const next = isLight ? 'dark' : 'light';
-  applyTheme(next);
-  try { localStorage.setItem('theme', next); } catch (e) {}
-});
-if (document.documentElement.getAttribute('data-theme') === 'light') {
-  themeToggle?.setAttribute('aria-label', 'Switch to dark mode');
 }
 
-// Render publications from publications.json
-const pubList = document.getElementById('publications-list');
-if (pubList) {
+function titleCase(str) {
+  return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+}
+
+function renderPublication(pub) {
+  const title = titleCase(pub.title);
+  return `
+    <article class="timeline__item" data-reveal>
+      <div class="timeline__top">
+        <h4>${pub.url ? `<a href="${pub.url}" target="_blank" rel="noopener">${title}</a>` : title}</h4>
+        ${pub.year ? `<span>${pub.year}</span>` : ''}
+      </div>
+      ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
+      ${pub.venue ? `<p class="pub-venue"><em>${pub.venue}</em></p>` : ''}
+    </article>
+  `;
+}
+
+function initPublications(observeReveal) {
+  const pubList = document.getElementById('publications-list');
+  if (!pubList) return;
+
   fetch('publications.json')
     .then((r) => r.json())
     .then((pubs) => {
       if (!pubs.length) return;
-      pubList.innerHTML = pubs.map((pub) => `
-        <article class="timeline__item" data-reveal>
-          <div class="timeline__top">
-            <h3>${pub.url ? `<a href="${pub.url}" target="_blank" rel="noopener">${pub.title}</a>` : pub.title}</h3>
-            ${pub.year ? `<span>${pub.year}</span>` : ''}
-          </div>
-          ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
-          ${pub.venue ? `<p class="pub-venue"><em>${pub.venue}</em></p>` : ''}
-        </article>
-      `).join('');
-
-      const newItems = pubList.querySelectorAll('[data-reveal]');
-      if (window._observeReveal) {
-        window._observeReveal(newItems);
-      } else {
-        newItems.forEach((el) => el.classList.add('is-visible'));
-      }
+      pubList.innerHTML = pubs.map(renderPublication).join('');
+      observeReveal(pubList.querySelectorAll('[data-reveal]'));
     })
-    .catch(() => {}); // silently fail — list stays empty
+    .catch(() => { }); // silently fail — list stays empty
 }
+
+initCustomCursor();
+initRandomPortrait();
+initHeroWordCycle();
+initThemeToggle();
+const observeReveal = initRevealAnimations();
+initPublications(observeReveal);
