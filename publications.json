@@ -5,7 +5,7 @@
     "authors": "P. Yu, A. Nordman, T. Fujiwara, M. Koc-Januchta, K. Schönborn, L. Besançon, K. Vrotsou",
     "venue": "IEEE Transactions on Visualization and Computer Graphics",
     "url": "https://ieeexplore.ieee.org/abstract/document/11261866/",
-    "citations": 6
+    "citations": 7
   },
   {
     "title": "Coordinated Projections: A New Approach toMulti-Faceted Process Exploration",
@@ -21,7 +21,7 @@
     "authors": "P. Yu, A. Nordman, M. Koc-Januchta, K. Schönborn, L. Besançon, K. Vrotsou",
     "venue": "IEEE Transactions on Visualization and Computer Graphics",
     "url": "https://ieeexplore.ieee.org/abstract/document/10670552/",
-    "citations": 12
+    "citations": 13
   },
   {
     "title": "Interactive Transformations and Visual Assessment of Noisy Event Sequences: An Application in En-Route Air Traffic Control",
@@ -29,7 +29,7 @@
     "authors": "P. Yu, A. Nordman, L. Meyer, S. Boonsong, K. Vrotsou",
     "venue": "2023 IEEE 16th Pacific Visualization Symposium (PacificVis)",
     "url": "https://ieeexplore.ieee.org/abstract/document/10148444/",
-    "citations": 1
+    "citations": 2
   },
   {
     "title": "Conversational Chatbots with Memory-based Question and Answer Generation",
@@ -45,6 +45,6 @@
     "authors": "P. Yu, A. Nordman, M. Mani, K. Schönborn, M. Koc-Januchta, G. Höst, M. Gezelius, L. Besançon, K. Vrotsou",
     "venue": "OSF",
     "url": "https://files.de-1.osf.io/v1/resources/9zp7k_v1/providers/osfstorage/69d53196939c4f2bab712841",
-    "citations": 0
+    "citations": 1
   }
 ]
