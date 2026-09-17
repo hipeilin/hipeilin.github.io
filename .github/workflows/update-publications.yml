@@ -24,8 +24,7 @@ jobs:
       - name: Fetch publications
         continue-on-error: true
         timeout-minutes: 5
-        run: |
-          python scripts/fetch_publications.py || echo "Publication fetch failed; keeping existing publications.json"
+        run: python scripts/fetch_publications.py
 
       - name: Commit updated publications.json
         uses: EndBug/add-and-commit@v9
