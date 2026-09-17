@@ -19,6 +19,9 @@ CALL_TIMEOUT_SECONDS = 60
 
 
 def call_with_timeout(func: Callable[[], Any]) -> Any:
+    if not hasattr(signal, "SIGALRM"):
+        return func()
+
     def timeout_handler(_signum, _frame):
         raise TimeoutError(f"Operation timed out after {CALL_TIMEOUT_SECONDS}s")
 
