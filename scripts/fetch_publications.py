@@ -5,9 +5,9 @@ Set SCHOLAR_ID to your Google Scholar author ID (the string after user= in your 
 
 import json
 import os
-import signal
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from typing import Any, Callable
 
 from scholarly import scholarly
@@ -18,8 +18,15 @@ BACKOFF_SECONDS = 5
 CALL_TIMEOUT_SECONDS = 60
 
 
-def _timeout_handler(_signum, _frame):
-    raise TimeoutError(f"Operation timed out after {CALL_TIMEOUT_SECONDS}s")
+def call_with_timeout(func: Callable[[], Any]) -> Any:
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(func)
+    try:
+        return future.result(timeout=CALL_TIMEOUT_SECONDS)
+    except FuturesTimeoutError as exc:
+        raise TimeoutError(f"Operation timed out after {CALL_TIMEOUT_SECONDS}s") from exc
+    finally:
+        executor.shutdown(wait=False, cancel_futures=True)
 
 
 def format_authors(raw: str) -> str:
@@ -46,16 +53,7 @@ def retry_call(func: Callable[[], Any], operation: str, max_retries: int = MAX_R
     last_error = None
     for attempt in range(1, max_retries + 1):
         try:
-            if hasattr(signal, "SIGALRM"):
-                previous_handler = signal.getsignal(signal.SIGALRM)
-                signal.signal(signal.SIGALRM, _timeout_handler)
-                signal.alarm(CALL_TIMEOUT_SECONDS)
-                try:
-                    return func()
-                finally:
-                    signal.alarm(0)
-                    signal.signal(signal.SIGALRM, previous_handler)
-            return func()
+            return call_with_timeout(func)
         except Exception as exc:  # noqa: BLE001 - this is a network/Scholarly failure path
             last_error = exc
             if attempt == max_retries:
