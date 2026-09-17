@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install scholarly
+        run: pip install -r requirements.txt
 
       - name: Fetch publications
         run: python scripts/fetch_publications.py
