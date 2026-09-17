@@ -4,10 +4,16 @@ Set SCHOLAR_ID to your Google Scholar author ID (the string after user= in your 
 """
 
 import json
+import os
 import sys
-from scholarly import scholarly, ProxyGenerator
+import time
+from typing import Any, Callable
+
+from scholarly import scholarly
 
 SCHOLAR_ID = "uR88WY8AAAAJ"
+MAX_RETRIES = 3
+BACKOFF_SECONDS = 5
 
 
 def format_authors(raw: str) -> str:
@@ -18,7 +24,6 @@ def format_authors(raw: str) -> str:
         if not name:
             continue
         if "," in name:
-            # "Smith, John" format
             last, first = name.split(",", 1)
             first = first.strip()
         else:
@@ -30,46 +35,79 @@ def format_authors(raw: str) -> str:
     return ", ".join(authors)
 
 
-def fetch():
-    try:
-        author = scholarly.search_author_id(SCHOLAR_ID)
-        scholarly.fill(author, sections=["publications"])
-    except Exception as e:
-        # Retry once with a free proxy if Google blocks the direct request
-        print(f"Direct fetch failed ({e}), retrying with proxy...")
-        pg = ProxyGenerator()
-        pg.FreeProxies()
-        scholarly.use_proxy(pg)
-        author = scholarly.search_author_id(SCHOLAR_ID)
-        scholarly.fill(author, sections=["publications"])
+def retry_call(func: Callable[[], Any], operation: str, max_retries: int = MAX_RETRIES):
+    """Retry transient Google Scholar failures with exponential backoff."""
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            return func()
+        except Exception as exc:  # noqa: BLE001 - this is a network/Scholarly failure path
+            last_error = exc
+            if attempt == max_retries:
+                raise RuntimeError(f"{operation} failed after {max_retries} attempts: {exc}") from exc
+            wait_time = BACKOFF_SECONDS * attempt
+            print(f"{operation} failed (attempt {attempt}/{max_retries}): {exc}. Retrying in {wait_time}s...")
+            time.sleep(wait_time)
+    raise RuntimeError(f"{operation} failed after {max_retries} attempts: {last_error}")
 
+
+def fetch_author():
+    def get_author():
+        author = scholarly.search_author_id(SCHOLAR_ID)
+        scholarly.fill(author, sections=["publications"])
+        return author
+
+    return retry_call(get_author, "Fetch author metadata")
+
+
+def fetch_publication_details(pub):
+    def get_pub_details():
+        scholarly.fill(pub)
+        return pub
+
+    return retry_call(get_pub_details, f"Fetch publication details for: {pub.get('bib', {}).get('title', 'unknown')}")
+
+
+def fetch():
+    author = fetch_author()
     pubs = []
+
     for pub in author.get("publications", []):
-        scholarly.fill(pub)  # fetch full details for each publication
+        try:
+            fetch_publication_details(pub)
+        except RuntimeError as exc:
+            print(f"Skipping publication due to fetch error: {exc}")
+            continue
+
         bib = pub.get("bib", {})
-        # print(json.dumps(bib, indent=2, ensure_ascii=False, default=str))
-        # print(" \n")
         pubs.append({
             "title": bib.get("title", ""),
             "year": bib.get("pub_year", ""),
             "authors": format_authors(bib.get("author", "")),
             "venue": bib.get("journal", "") or bib.get("conference", "") or bib.get("publisher", "") or bib.get("citation", ""),
-            # "abstract": bib.get("abstract", ""),
             "url": pub.get("pub_url", ""),
             "citations": pub.get("num_citations", 0),
         })
 
-    # Most recent first
     pubs.sort(key=lambda p: str(p["year"] or "0"), reverse=True)
 
-    with open("publications.json", "w", encoding="utf-8") as f:
+    output_path = "publications.json"
+    temp_path = f"{output_path}.tmp"
+    with open(temp_path, "w", encoding="utf-8") as f:
         json.dump(pubs, f, indent=2, ensure_ascii=False)
 
-    print(f"Wrote {len(pubs)} publications to publications.json")
+    os.replace(temp_path, output_path)
+    print(f"Wrote {len(pubs)} publications to {output_path}")
 
 
 if __name__ == "__main__":
     if SCHOLAR_ID == "YOUR_SCHOLAR_ID_HERE":
         print("Error: set SCHOLAR_ID in scripts/fetch_publications.py")
         sys.exit(1)
-    fetch()
+
+    try:
+        fetch()
+    except Exception as exc:  # noqa: BLE001 - network failure path
+        print(f"Failed to update publications: {exc}", file=sys.stderr)
+        print("Existing publications.json was left unchanged.")
+        sys.exit(1)
