@@ -107,6 +107,10 @@ if __name__ == "__main__":
 
     try:
         fetch()
+    except RuntimeError as exc:
+        print(f"Skipping update due to transient fetch failure: {exc}", file=sys.stderr)
+        print("Existing publications.json was left unchanged.")
+        sys.exit(0)
     except Exception as exc:  # noqa: BLE001 - network failure path
         print(f"Failed to update publications: {exc}", file=sys.stderr)
         print("Existing publications.json was left unchanged.")
