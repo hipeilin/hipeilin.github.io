@@ -22,7 +22,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Fetch publications
-        run: python scripts/fetch_publications.py
+        timeout-minutes: 5
+        run: |
+          python scripts/fetch_publications.py || echo "Publication fetch failed; keeping existing publications.json"
 
       - name: Commit updated publications.json
         uses: EndBug/add-and-commit@v9
