@@ -1,5 +1,21 @@
 [
   {
+    "title": "From Interaction to Systems Thinking: A Visual Analytics Approach for Exploring Pupils’ Behavior in a Digital Learning Environment",
+    "year": 2026,
+    "authors": "P. Yu, A. Nordman, M. Mani, K. Schönborn, M. Koc-Januchta, G. Höst, M. Gezelius, L. Besançon, K. Vrotsou",
+    "venue": "OSF",
+    "url": "",
+    "citations": 1
+  },
+  {
+    "title": "TRACES: Temporal Reasoning and Visual Analysis of Complex Event Sequences",
+    "year": 2026,
+    "authors": "P. Yu",
+    "venue": "Linköping University Electronic Press",
+    "url": "https://books.google.com/books?hl=en&lr=&id=glsEEgAAQBAJ&oi=fnd&pg=PR3&dq=info:HtvMU2Z_mcEJ:scholar.google.com&ots=f938CZDt2F&sig=nnylDDV4nmEA-asY9tnANDrBrpY",
+    "citations": 0
+  },
+  {
     "title": "Visual Extraction of Interaction Patterns Guided by Hierarchical Clustering and Process Mining",
     "year": 2025,
     "authors": "P. Yu, A. Nordman, T. Fujiwara, M. Koc-Januchta, K. Schönborn, L. Besançon, K. Vrotsou",
@@ -37,14 +53,6 @@
     "authors": "M. Vinkler, P. Yu",
     "venue": "",
     "url": "https://scholar.google.com/scholar?cluster=4891159829432499220&hl=en&oi=scholarr",
-    "citations": 1
-  },
-  {
-    "title": "From Interaction to Systems Thinking: A Visual Analytics Approach for Exploring Pupils’ Behavior in a Digital Learning Environment",
-    "year": "",
-    "authors": "P. Yu, A. Nordman, M. Mani, K. Schönborn, M. Koc-Januchta, G. Höst, M. Gezelius, L. Besançon, K. Vrotsou",
-    "venue": "OSF",
-    "url": "https://files.de-1.osf.io/v1/resources/9zp7k_v1/providers/osfstorage/69d53196939c4f2bab712841",
     "citations": 1
   }
 ]
