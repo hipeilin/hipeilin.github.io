@@ -1,6 +1,10 @@
 """
 Fetches publications from Google Scholar and writes publications.json.
 Set SCHOLAR_ID to your Google Scholar author ID (the string after user= in your profile URL).
+
+If the SCRAPER_API_KEY environment variable is set, requests are routed through
+ScraperAPI (needed on GitHub Actions, where Google Scholar blocks datacenter IPs).
+Without it, the script connects to Google Scholar directly (fine for local runs).
 """
 
 import json
@@ -9,11 +13,24 @@ import sys
 import time
 from typing import Any, Callable
 
-from scholarly import scholarly
+from scholarly import scholarly, ProxyGenerator
 
 SCHOLAR_ID = "uR88WY8AAAAJ"
 MAX_RETRIES = 3
 BACKOFF_SECONDS = 5
+
+
+def setup_proxy():
+    """Route Scholar requests through ScraperAPI when a key is available."""
+    key = os.environ.get("SCRAPER_API_KEY")
+    if not key:
+        print("No SCRAPER_API_KEY set, fetching without proxy.")
+        return
+    pg = ProxyGenerator()
+    if not pg.ScraperAPI(key):
+        raise RuntimeError("ScraperAPI proxy setup failed")
+    scholarly.use_proxy(pg)
+    print("Using ScraperAPI proxy.")
 
 
 def format_authors(raw: str) -> str:
@@ -106,6 +123,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
+        setup_proxy()
         fetch()
     except Exception as exc:  # noqa: BLE001 - network failure path
         print(f"Failed to update publications: {exc}", file=sys.stderr)
