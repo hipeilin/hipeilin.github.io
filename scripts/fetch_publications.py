@@ -27,7 +27,7 @@ def setup_proxy():
         print("No SCRAPER_API_KEY set, fetching without proxy.")
         return
     pg = ProxyGenerator()
-    if not pg.ScraperAPI(key):
+    if not pg.ScraperAPI(key, premium=True):
         raise RuntimeError("ScraperAPI proxy setup failed")
     scholarly.use_proxy(pg)
     print("Using ScraperAPI proxy.")
