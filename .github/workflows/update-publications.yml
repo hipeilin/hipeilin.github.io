@@ -23,6 +23,8 @@ jobs:
 
       - name: Fetch publications
         run: python scripts/fetch_publications.py
+        env:
+          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
 
       - name: Commit updated publications.json
         uses: EndBug/add-and-commit@v9
