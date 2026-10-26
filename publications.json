@@ -4,7 +4,7 @@
     "year": 2026,
     "authors": "P. Yu, A. Nordman, M. Mani, K. Schönborn, M. Koc-Januchta, G. Höst, M. Gezelius, L. Besançon, K. Vrotsou",
     "venue": "OSF",
-    "url": "",
+    "url": "https://osf.io/preprints/edarxiv/9zp7k",
     "citations": 1
   },
   {
@@ -12,7 +12,7 @@
     "year": 2026,
     "authors": "P. Yu",
     "venue": "Linköping University Electronic Press",
-    "url": "https://books.google.com/books?hl=en&lr=&id=glsEEgAAQBAJ&oi=fnd&pg=PR3&dq=info:HtvMU2Z_mcEJ:scholar.google.com&ots=f938CZDt2F&sig=nnylDDV4nmEA-asY9tnANDrBrpY",
+    "url": "https://books.google.com/books?hl=en&lr=&id=glsEEgAAQBAJ&oi=fnd&pg=PR3&dq=info:HtvMU2Z_mcEJ:scholar.google.com&ots=f939wZyq3B&sig=RGordusN3Z7Sn1Nb3UurFs7ellE",
     "citations": 0
   },
   {
@@ -29,7 +29,7 @@
     "authors": "S. Elzen, G. Andrienko, A. Kerren, M. Resinas, B. Weber, P. Yu",
     "venue": "6th Workshop on Event Data and Behavioral Analytics (EdbA'25), Montevideo, Uruguay, October 20, 2025.",
     "url": "https://scholar.google.com/scholar?cluster=12459417323921567912&hl=en&oi=scholarr",
-    "citations": 1
+    "citations": 2
   },
   {
     "title": "Revealing interaction dynamics: Multi-level visual exploration of user strategies with an interactive digital environment",
