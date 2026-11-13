@@ -1,43 +1,53 @@
-"""
-Fetches publications from Google Scholar and writes publications.json.
-Set SCHOLAR_ID to your Google Scholar author ID (the string after user= in your profile URL).
-
-If the SCRAPER_API_KEY environment variable is set, requests are routed through
-ScraperAPI (needed on GitHub Actions, where Google Scholar blocks datacenter IPs).
-Without it, the script connects to Google Scholar directly (fine for local runs).
-"""
-
 import json
 import os
-from scholarly import scholarly
+import requests
 
-SCHOLAR_ID = os.environ.get("SCHOLAR_ID", "uR88WY8AAAAJ")
+API_KEY = os.environ.get("SERPAPI_KEY")
+SCHOLAR_ID = os.environ.get("SCHOLAR_ID")
 
 def fetch_scholar_data():
-    author = scholarly.search_author_id(SCHOLAR_ID)
-    author = scholarly.fill(author, sections=['basics', 'indices', 'publications'])
+    url = "https://serpapi.com"
+    params = {
+        "engine": "google_scholar_author",
+        "author_id": SCHOLAR_ID,
+        "api_key": API_KEY,
+        "num": 100
+    }
     
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    raw_data = response.json()
+    
+    # Extract citation metrics
+    cited_by = raw_data.get("cited_by", {}).get("table", [])
+    citations = cited_by[0]["citations"]["all"] if len(cited_by) > 0 else 0
+    h_index = cited_by[1]["h_index"]["all"] if len(cited_by) > 1 else 0
+    i10_index = cited_by[2]["i10_index"]["all"] if len(cited_by) > 2 else 0
+
     data = {
-        "name": author.get("name"),
-        "affiliation": author.get("affiliation"),
-        "citations": author.get("citedby", 0),
-        "h_index": author.get("hindex", 0),
-        "i10_index": author.get("i10index", 0),
+        "name": raw_data.get("author", {}).get("name"),
+        "affiliation": raw_data.get("author", {}).get("affiliations"),
+        "citations": citations,
+        "h_index": h_index,
+        "i10_index": i10_index,
         "publications": []
     }
     
-    for pub in author.get("publications", []):
-        bib = pub.get("bib", {})
+    # Extract publications
+    for article in raw_data.get("articles", []):
         data["publications"].append({
-            "title": bib.get("title"),
-            "year": bib.get("pub_year"),
-            "citations": pub.get("num_citations", 0),
-            "venue": bib.get("citation", "")
+            "title": article.get("title"),
+            "link": article.get("link"),
+            "authors": article.get("authors"),
+            "venue": article.get("publication"),
+            "year": article.get("year"),
+            "citations": article.get("cited_by", {}).get("value") or 0
         })
         
     # Sort publications by year descending
     data["publications"].sort(key=lambda x: str(x["year"] or "0"), reverse=True)
     
+    # Saves publications.json to the root directory when run from root
     with open("publications.json", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
