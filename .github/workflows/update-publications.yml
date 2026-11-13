@@ -1,35 +1,37 @@
-name: Update Publications
+name: Update Google Scholar Data
 
 on:
   schedule:
-    - cron: "0 3 * * 1"   # every Monday at 03:00 UTC
-  workflow_dispatch:       # allow manual trigger from the Actions tab
+    - cron: '0 0 * * 0' # Runs every Sunday at 00:00 UTC
+  workflow_dispatch:     # Allows you to trigger it manually from the Actions tab
+
+permissions:
+  contents: write        # Needed to commit the updated JSON file
 
 jobs:
-  fetch:
+  update-data:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    permissions:
-      contents: write
-
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v6
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install scholarly
 
-      - name: Fetch publications
-        run: python -u scripts/fetch_publications.py
+      - name: Run scraper
         env:
-          SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          SCHOLAR_ID: "YOUR_SCHOLAR_ID"
+        run: python fetch_publications.py
 
-      - name: Commit updated publications.json
-        uses: EndBug/add-and-commit@v9
-        with:
-          message: "chore: update publications from Google Scholar"
-          add: "publications.json"
-          default_author: github_actions
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@://github.com"
+          git add publications.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update Google Scholar metrics"
+          git push
