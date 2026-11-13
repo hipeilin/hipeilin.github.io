@@ -38,7 +38,7 @@ def fetch_scholar_data():
     # Sort publications by year descending
     data["publications"].sort(key=lambda x: str(x["year"] or "0"), reverse=True)
     
-    with open("scholar_data.json", "w", encoding="utf-8") as f:
+    with open("publications.json", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 
 if __name__ == "__main__":
