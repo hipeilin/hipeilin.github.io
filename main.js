@@ -191,11 +191,12 @@ function titleCase(str) {
 }
 
 function renderPublication(pub) {
-    const title = titleCase(pub.title);
+    const title = titleCase(pub.title || '');
+    const url = pub.url || pub.link;
     return `
     <article class="timeline__item" data-reveal>
       <div class="timeline__top">
-        <h4>${pub.url ? `<a href="${pub.url}" target="_blank" rel="noopener">${title}</a>` : title}</h4>
+        <h4>${url ? `<a href="${url}" target="_blank" rel="noopener">${title}</a>` : title}</h4>
         ${pub.year ? `<span>${pub.year}</span>` : ''}
       </div>
       ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
@@ -210,12 +211,14 @@ function initPublications(observeReveal) {
 
     fetch('publications.json')
         .then((r) => r.json())
-        .then((pubs) => {
+        .then((data) => {
+            // Supports both the new format ({ publications: [...] }) and the old plain list
+            const pubs = Array.isArray(data) ? data : (data.publications || []);
             if (!pubs.length) return;
             pubList.innerHTML = pubs.map(renderPublication).join('');
             observeReveal(pubList.querySelectorAll('[data-reveal]'));
         })
-        .catch(() => { }); // silently fail — list stays empty
+        .catch((err) => console.error('Failed to load publications:', err));
 }
 
 initCustomCursor();
