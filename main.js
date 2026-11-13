@@ -186,9 +186,12 @@ function initLocationToggle() {
     });
 }
 
-// function titleCase(str) {
-//     return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
-// }
+const MY_NAME = 'P Yu';
+
+function highlightMe(authors) {
+    // Bold only the exact name, so names like "SP Yu" aren't bolded
+    return authors.replace(new RegExp(`(^|,\\s*)(${MY_NAME})(?=,|$)`), '$1<strong>$2</strong>');
+}
 
 function renderPublication(pub) {
     // const title = titleCase(pub.title || '');
@@ -200,7 +203,7 @@ function renderPublication(pub) {
         <h4>${url ? `<a href="${url}" target="_blank" rel="noopener">${title}</a>` : title}</h4>
         ${pub.year ? `<span>${pub.year}</span>` : ''}
       </div>
-      ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
+      ${pub.authors ? `<p class="pub-authors">${highlightMe(pub.authors)}</p>` : ''}
       ${pub.venue ? `<p class="pub-venue"><em>${pub.venue.replace(/,\s*\d{4}$/, '')}</em></p>` : ''}
     </article>
   `;
