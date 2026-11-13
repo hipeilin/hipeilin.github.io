@@ -201,7 +201,7 @@ function renderPublication(pub) {
         ${pub.year ? `<span>${pub.year}</span>` : ''}
       </div>
       ${pub.authors ? `<p class="pub-authors">${pub.authors}</p>` : ''}
-      ${pub.venue ? `<p class="pub-venue"><em>${pub.venue}</em></p>` : ''}
+      ${pub.venue ? `<p class="pub-venue"><em>${pub.venue.replace(/,\s*\d{4}$/, '')}</em></p>` : ''}
     </article>
   `;
 }
