@@ -3,10 +3,10 @@ name: Update Google Scholar Data
 on:
   schedule:
     - cron: '0 0 * * 0' # Runs every Sunday at 00:00 UTC
-  workflow_dispatch:     # Allows you to trigger it manually from the Actions tab
+  workflow_dispatch:     # Allows manual testing from the Actions tab
 
 permissions:
-  contents: write        # Needed to commit the updated JSON file
+  contents: write
 
 jobs:
   update-data:
@@ -21,17 +21,18 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install scholarly
+        run: pip install requests
 
-      - name: Run scraper
+      - name: Fetch Scholar data via SerpApi
         env:
-          SCHOLAR_ID: "YOUR_SCHOLAR_ID"
-        run: python fetch_publications.py
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          SCHOLAR_ID: "uR88WY8AAAAJ"
+        run: python script/fetch_publications.py
 
-      - name: Commit and push changes
+      - name: Commit and push updated JSON
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@://github.com"
           git add publications.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update Google Scholar metrics"
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update Google Scholar data"
           git push
