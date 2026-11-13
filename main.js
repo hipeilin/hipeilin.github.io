@@ -186,12 +186,13 @@ function initLocationToggle() {
     });
 }
 
-function titleCase(str) {
-    return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
-}
+// function titleCase(str) {
+//     return str.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+// }
 
 function renderPublication(pub) {
-    const title = titleCase(pub.title || '');
+    // const title = titleCase(pub.title || '');
+    const title = pub.title || '';
     const url = pub.url || pub.link;
     return `
     <article class="timeline__item" data-reveal>
