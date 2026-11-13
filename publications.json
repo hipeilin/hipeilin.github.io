@@ -1,1 +1,65 @@
-[]
+{
+  "name": "Peilin Yu",
+  "affiliation": "Linköping University",
+  "citations": 27,
+  "h_index": 2,
+  "i10_index": 1,
+  "publications": [
+    {
+      "title": "From Interaction to Systems Thinking: A Visual Analytics Approach for Exploring Pupils’ Behavior in a Digital Learning Environment",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:W7OEmFMy1HYC",
+      "authors": "P Yu, A Nordman, M Mani, K Schönborn, M Koc-Januchta, G Höst, ...",
+      "venue": "OSF, 2026",
+      "year": "2026",
+      "citations": 1
+    },
+    {
+      "title": "TRACES: Temporal Reasoning and Visual Analysis of Complex Event Sequences",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:_FxGoFyzp5QC",
+      "authors": "P Yu",
+      "venue": "Linköping University Electronic Press, 2026",
+      "year": "2026",
+      "citations": 0
+    },
+    {
+      "title": "Visual Extraction of Interaction Patterns Guided by Hierarchical Clustering and Process Mining",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:qjMakFHDy7sC",
+      "authors": "P Yu, A Nordman, T Fujiwara, M Koc-Januchta, K Schönborn, L Besançon, ...",
+      "venue": "IEEE Transactions on Visualization and Computer Graphics, 2025",
+      "year": "2025",
+      "citations": 8
+    },
+    {
+      "title": "Coordinated Projections: A New Approach toMulti-Faceted Process Exploration",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:zYLM7Y9cAGgC",
+      "authors": "S van den Elzen, G Andrienko, A Kerren, M Resinas, B Weber, P Yu",
+      "venue": "6th Workshop on Event Data and Behavioral Analytics (EdbA'25), Montevideo …, 2025",
+      "year": "2025",
+      "citations": 2
+    },
+    {
+      "title": "Revealing interaction dynamics: Multi-level visual exploration of user strategies with an interactive digital environment",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:2osOgNQ5qMEC",
+      "authors": "P Yu, A Nordman, M Koc-Januchta, K Schönborn, L Besançon, K Vrotsou",
+      "venue": "IEEE Transactions on Visualization and Computer Graphics 31 (1), 831-841, 2024",
+      "year": "2024",
+      "citations": 13
+    },
+    {
+      "title": "Interactive Transformations and Visual Assessment of Noisy Event Sequences: An Application in En-Route Air Traffic Control",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:9yKSN-GCB0IC",
+      "authors": "P Yu, A Nordman, L Meyer, S Boonsong, K Vrotsou",
+      "venue": "2023 IEEE 16th Pacific Visualization Symposium (PacificVis), 92-101, 2023",
+      "year": "2023",
+      "citations": 2
+    },
+    {
+      "title": "Conversational Chatbots with Memory-based Question and Answer Generation",
+      "link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=uR88WY8AAAAJ&pagesize=100&citation_for_view=uR88WY8AAAAJ:u-x6o8ySG0sC",
+      "authors": "M Lundell Vinkler, P Yu",
+      "venue": null,
+      "year": "2020",
+      "citations": 1
+    }
+  ]
+}
