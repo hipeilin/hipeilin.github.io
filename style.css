@@ -420,14 +420,19 @@ section {
   line-height: 1.2;
 }
 
-/* animated underline: enter left→right, exit left→right */
+/* animated underline: enter left→right, exit left→right (wraps across lines) */
 .timeline__item h4 a {
-  position: relative;
-  transition: color .3s ease;
+  background-image: linear-gradient(var(--orange), var(--orange));
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 100% 100%;   /* at rest: anchored right, so it exits toward the right */
+  transition: color .3s ease, background-size .3s ease;
 }
 
 .timeline__item h4 a:hover {
   color: var(--orange);
+  background-size: 100% 1px;
+  background-position: 0 100%;      /* on hover: anchored left, so it grows from the left */
 }
 
 .timeline__item h4 a::after {
